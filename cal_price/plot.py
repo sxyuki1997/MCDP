@@ -18,11 +18,11 @@ for i in x:
 x.append(1)
 y.append(0)
 
-# plt.plot(x,y)
-# plt.xlabel("p(x)")
-# plt.ylabel("H(X)")
-# plt.grid()
-# plt.title("信息熵与事件发生概率")
-# plt.savefig('../img/entropy.png')
-# plt.show()
+plt.plot(x,y)
+plt.xlabel("p(x)")
+plt.ylabel("H(X)")
+plt.grid()
+plt.title("信息熵与事件发生概率")
+plt.savefig('../img/entropy.png')
+plt.show()
 
