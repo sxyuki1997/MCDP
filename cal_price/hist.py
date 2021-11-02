@@ -3,15 +3,18 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 from cal_price import utility
+from cal_price.calProb import CalProbability
 
 plt.rcParams['font.sans-serif'] = ['STZhongsong']
 plt.rcParams['axes.unicode_minus'] = False
 plt.rcParams['figure.dpi'] = 600
 plt.rcParams['figure.figsize'] = (10,6)
 
-charge_data = pd.read_csv("../data/insurance.csv")
+# charge_data = pd.read_csv("../data/insurance.csv")
 heart_data = pd.read_csv("../data/heart.csv")
+heart_data_url = "../data/heart.csv"
 credit_data = pd.read_csv("../data/german_credit_data.csv")
+income_data_url = "../data/adult_2.csv"
 age = heart_data["age"]
 # age = credit_data["Age"]
 N = len(age)
@@ -25,8 +28,8 @@ MSE = []
 
 # 计算目标直方图的数据价值
 # 计算相应的攻击成功概率
-acc = 0.83
-pub_acc = acc
+prob = CalProbability(income_data_url)._cal_prob()
+print(prob)
 
 
 def geo_mech(lamda):
@@ -51,7 +54,7 @@ for k in range(len(n_equal_bins)):
     plt.hist(x = age, bins =n_equal_bins[k], color='SteelBlue', edgecolor = "black")
     plt.xlabel("age")
     plt.ylabel("count")
-    plt.title("原始直方图" + "(N="+ str(n_equal_bins[k]) +")")
+    plt.title("原始直方图" + " ($N$="+ str(n_equal_bins[k]) +")")
     plt.tight_layout()
 
     # DP Histogram 1
