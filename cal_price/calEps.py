@@ -2,6 +2,7 @@ from scipy.optimize import root,fsolve
 from scipy.special import comb
 import numpy as np
 import matplotlib.pyplot as plt
+import time
 
 from sympy import symbols, solve
 
@@ -17,17 +18,16 @@ def _cal_attack_eps(prob, L, N):
     b = comb(N, n) * (1-x)**n * x ** (N-n) - prob
 
     res = solve(b, x)
-    print(res[0])git 
+    print(res[0])
     return float(res[0])
 
 
 
-# y = _cal_attack_eps(0.83, 1, 3)
+y = _cal_attack_eps(0.5, 1, 5)
 
-y = -0.55
 
 def _solve_function(x):
-    return (x-1)/(1+x) * (x / np.log(x)) - y
+    return (x-1)/(1+x) * (x / np.log(x)) + y
 
 
 def plot_cross(y):
@@ -49,8 +49,14 @@ def plot_cross(y):
     plt.show()
 
 
-solved = root(_solve_function, [0.9])
-print(solved)
+startT = time.time()  # 毫秒数
+
+solved = root(_solve_function, [0.5])
+endT = time.time()
+interval = endT - startT
+# 计算结果，lamda
+print(solved.fun)
+print(interval * 1000)
 # print(-np.log(solved))
 
-plot_cross(0.43)
+plot_cross(y)

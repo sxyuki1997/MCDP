@@ -28,8 +28,8 @@ MSE = []
 
 # 计算目标直方图的数据价值
 # 计算相应的攻击成功概率
-prob = CalProbability(income_data_url)._cal_prob()
-print(prob)
+# prob = CalProbability(income_data_url)._cal_prob()
+# print(prob)
 
 
 def geo_mech(lamda):
