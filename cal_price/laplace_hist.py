@@ -30,13 +30,31 @@ MSE = []
 ACC = []
 # 设置lamda
 lamda = 0.26
+eps = 1.27
 
 # 计算目标直方图的数据价值
 # 计算相应的攻击成功概率
 # prob = CalProbability(income_data_url)._cal_prob()
 # print(prob)
 
+# laplace加噪
+def _lapalce_mech(e):
+    beta = 1 / e
+    u1 = np.random.random()
+    u2 = np.random.random()
+    if u1 < 0.5:
+        noise = int(beta * np.log(2 * u2))+2
+    else:
+        noise = int(-beta * np.log(2 - 2 * u2))-2
+    return noise
 
+def laplace_noise_generate(hist, eps):
+    noised_hist = []
+    for i in hist:
+        noised_hist.append(i+_lapalce_mech(eps))
+    return noised_hist
+
+# geo加噪
 def geo_mech(lamda):
     u1 = np.random.random()
     if u1 <= 0.5:
@@ -69,7 +87,8 @@ for k in range(len(n_equal_bins)):
     hist = hist.tolist()
     print("original hist:", hist)
     x = hist
-    x_noised = geo_hist_generate(x, lamda)
+    # x_noised = geo_hist_generate(x, lamda)
+    x_noised = laplace_noise_generate(x, eps)
 
     # opt_eps = res._laplace_mech()[1]
     # opt_epsilon.append(opt_eps)
@@ -79,15 +98,17 @@ for k in range(len(n_equal_bins)):
     final_acc = []
     mse = 0
     for i in range(len(x)):
+        if (x[i] == 0):
+            x[i] = 1
         acc = 1 - (abs(x_noised[i] - x[i]) / x[i])
         final_acc.append(acc)
         mse += (x_noised[i] - x[i]) ** 2
 
     print("final_acc:", final_acc)
     print("mean_acc:", np.mean(final_acc))
-    ACC.append(np.mean(final_acc))
+    ACC.append(round(np.mean(final_acc),2))
     print("mse:", mse / len(x))
-    MSE.append(mse / len(x))
+    MSE.append(round(mse / len(x),2))
 
     # plt.hist(hist.tolist(),bins=bin_edges,histtype='bar',rwidth=10,edgecolor="black")
 
@@ -110,7 +131,7 @@ for k in range(len(n_equal_bins)):
     H = res_utility._cal_hellinger()
     B = res_utility._cal_bhattacharyya()
     W = res_utility._cal_wasserstein()
-    WD.append(W)
+    WD.append(round(W,2))
     print("===========UTILITY===============")
     print("F=", F)
     print("H=", H)
@@ -127,7 +148,7 @@ for k in range(len(n_equal_bins)):
 # plt.ylabel("epsilon")
 # plt.title("Epsilon under different bins")
 
-# plt.savefig('../img/income_hist.png')
+plt.savefig('../img/income_laplace_hist.png')
 plt.show()
 print("W距离：", WD)
 print("MSE:", MSE)

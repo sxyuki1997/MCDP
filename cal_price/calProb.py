@@ -97,7 +97,7 @@ class CalProbability(object):
         p = p * c
         # 时效性设置
         t0 = 0
-        tc = 3
+        tc = 5
         T = tc-t0
         delta = 1 / ((1+0.05)**T)
         p = p*delta
@@ -115,6 +115,10 @@ class CalProbability(object):
 
 
 # 计算相应的攻击成功概率
-data_url = '../data/heart.csv' #2018年
-prob = CalProbability(data_url, ['age', 'target'])._cal_prob()
+heart_data_url = '../data/heart.csv' #2018年
+income_data_url = '../data/adult_2.csv' #2016年
+prob = CalProbability(income_data_url, ['age', 'income'])._cal_prob()
 print(prob)
+
+# adult 0.86 0.3
+# heart 0.88 0.26
