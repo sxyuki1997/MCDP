@@ -16,8 +16,8 @@ heart_data_url = "../data/heart.csv"
 credit_data = pd.read_csv("../data/german_credit_data.csv")
 income_data_url = "../data/adult_2.csv"
 income_data = pd.read_csv("../data/income.csv")
-# age = income_data["age"]
-age = heart_data["age"]
+age = income_data["age"]
+# age = heart_data["age"]
 # age = credit_data["Age"]
 N = len(age)
 
@@ -29,7 +29,7 @@ WD = []
 MSE = []
 ACC = []
 # 设置lamda
-lamda = 0.26
+lamda = 0.3
 
 # 计算目标直方图的数据价值
 # 计算相应的攻击成功概率

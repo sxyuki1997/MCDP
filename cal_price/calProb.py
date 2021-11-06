@@ -81,43 +81,49 @@ class CalProbability(object):
 
 
     def _cal_prob(self):
+        n = 5000
         data_url = self.data_url
         # data_url = "../data/adult_2.csv"
         data = pd.read_csv(data_url)
         # 开始时间
-        startT = time.time()*1000 #毫秒数
+        startT = time.time() #毫秒数
         A = _attr_extraction(data_url)
-        # 权重计算
-        W = _cal_type_weight(A)
-        # 数据类型价值矩阵
         C = [0.3685, 0.6725, 0.19, 0.0825, 0.07]
-        p = sum(np.array(W) * np.array(C))
-        # 可信度设置
-        c = 0.9
-        p = p * c
-        # 时效性设置
-        t0 = 0
-        tc = 5
-        T = tc-t0
-        delta = 1 / ((1+0.05)**T)
-        p = p*delta
+
+        for i in range(n):
+            # 权重计算
+            W = _cal_type_weight(A)
+            # 数据类型价值矩阵
+            p = sum(np.array(W) * np.array(C))
+            # 可信度设置
+            c = 0.9
+            p = p * c
+            # 时效性设置
+            t0 = 0
+            tc = 5
+            T = tc-t0
+            delta = 1 / ((1+0.05)**T)
+            p = p*delta
+
+        endT = time.time()
+        interval = endT - startT
+        print("=====优化后运行时间=======：", interval * 1000)
         # 信息熵计算
         hw = _cal_entropy(data, self.targetA, A)
         p = p*hw
         prob = _cal_attack_p(p)
-
-        endT = time.time() * 1000
-        interval = endT - startT
-        print("运行时间：",interval)
         print("数据价值：",p)
         print("攻击成功概率", prob)
+        # endT = time.time()
+        # interval = endT - startT
+        # print("优化前运行时间：", interval * 1000)
         return prob
 
 
 # 计算相应的攻击成功概率
 heart_data_url = '../data/heart.csv' #2018年
 income_data_url = '../data/adult_2.csv' #2016年
-prob = CalProbability(income_data_url, ['age', 'income'])._cal_prob()
+prob = CalProbability(heart_data_url, ['age', 'target'])._cal_prob()
 print(prob)
 
 # adult 0.86 0.3

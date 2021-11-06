@@ -74,14 +74,14 @@ startT = time.time()  # 毫秒数
 
 # solved = root(_solve_function, [0.5])
 
-# solved = root(_solve_lamda_func, [0.4])
+solved = root(_solve_lamda_func, [0.4])
 
 
 endT = time.time()
 interval = endT - startT
 # 计算结果，lamda
 # print(solved)
-# print(interval * 1000)
+print("计算不等式的时间", interval * 1000)
 # print(-np.log(solved))
 
 plot_cross(y)
