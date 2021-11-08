@@ -160,7 +160,7 @@ if __name__ == "__main__":
     """
     data_set = load_data_set()
     L, support_data = generate_L(data_set, k=3, min_support=0.1)
-    big_rules_list = generate_big_rules(L, support_data, min_conf=0.1)
+    big_rules_list = generate_big_rules(L, support_data, min_conf=0.5)
     # for Lk in L:
     #     print("="*50)
     #     print("frequent " + str(len(list(Lk)[0])) + "-itemsets\t\tsupport")
@@ -170,4 +170,5 @@ if __name__ == "__main__":
     print()
     print("Big Rules")
     for item in big_rules_list:
-        print(item[0], "=>", item[1], "conf: ", item[2])
+        if(item[1] == frozenset({'malicious'})):
+            print(item[0], "=>", item[1], "conf: ", item[2])
