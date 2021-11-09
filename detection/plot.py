@@ -89,7 +89,7 @@ def _plot_advanced_running_time():
 
     plt.show()
 
-# _plot_advanced_running_time()
+_plot_advanced_running_time()
 
 def _plot_acc_fscore():
     plt.rcParams['figure.figsize'] = (10, 4)
@@ -132,7 +132,7 @@ def _plot_acc_fscore():
     plt.tight_layout()
     plt.show()
 
-_plot_acc_fscore()
+# _plot_acc_fscore()
 
 def _plot_normal_sql():
     plt.rcParams['figure.figsize'] = (10, 3)
