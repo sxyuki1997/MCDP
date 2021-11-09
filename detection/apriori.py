@@ -171,4 +171,4 @@ if __name__ == "__main__":
     print("Big Rules")
     for item in big_rules_list:
         if(item[1] == frozenset({'malicious'})):
-            print(item[0], "=>", item[1], "conf: ", item[2])
+            print(item[0], "%", item[1], "conf: ", item[2])
