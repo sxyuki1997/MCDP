@@ -51,8 +51,8 @@ def _plot_origin_running_time():
     plt.plot(t1, label="随机森林", marker='s', linewidth=1)
 
     plt.legend()
-    plt.title("各分类算法运行时间")
-    plt.ylabel("运行时间($ms$)")
+    plt.title("各分类算法训练时间")
+    plt.ylabel("时间($ms$)")
 
     plt.subplot(2, 1, 2)
     plt.xticks([0, 1, 2, 3, 4],
@@ -62,7 +62,7 @@ def _plot_origin_running_time():
     plt.plot(t4, label="朴素贝叶斯", marker='^', color="red", linewidth=1)
 
     plt.legend()
-    plt.ylabel("运行时间($ms$)")
+    plt.ylabel("时间($ms$)")
     plt.xlabel("数据集大小")
     plt.savefig("../img/origin_running_time.png")
 
@@ -82,8 +82,8 @@ def _plot_advanced_running_time():
     plt.plot(t3, label="逻辑回归", marker='p', linewidth=1)
     plt.plot(t4, label="朴素贝叶斯", marker='^', linewidth=1)
     plt.legend()
-    plt.title("各分类算法运行时间（优化后）")
-    plt.ylabel("运行时间($ms$)")
+    plt.title("各分类算法训练时间（优化后）")
+    plt.ylabel("时间($ms$)")
     plt.xlabel("数据集大小")
     plt.savefig("../img/advanced_running_time.png")
 
