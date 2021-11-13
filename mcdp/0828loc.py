@@ -12,10 +12,17 @@ def plot_map_jap(coor):
                    control_scale=True)
 
     # # 创建聚合
-    # marker_cluster = MarkerCluster().add_to(m)
+    marker_cluster = MarkerCluster().add_to(m)
     '''定义geojson图层'''
-    for item in coor:
-        folium.Marker(location=[item[1], item[0]]).add_to(m)
+    # for item in coor:
+    #     folium.Marker(location=[item[1], item[0]]).add_to(m)
+    '''定义geojson图层'''
+    gj = folium.GeoJson(data={"type": "MultiPoint",
+                              "coordinates": coor
+                              })
+
+    '''为m添加geojson层'''
+    gj.add_to(marker_cluster)
 
     '''显示m'''
     m.save('loc0001.html')
@@ -28,7 +35,7 @@ plt.figure(figsize=(12, 15))
 
 
 # loc_data = pd.read_csv("../data/shanghai_locs.csv")
-loc_data = np.load("japan_data.npy")
+loc_data = np.load("../data/japan_data.npy")
 # [userid, lat, lon, locid, time]
 all_locs = []
 all_time = []
@@ -133,8 +140,9 @@ for t in range(0, len(timelist)-1, 2):
         print(key, loc_cnt_map[key])
 
     for i in range(len(locs)):
-        locList.append([lons[i],lats[i],locs[i]])
+        locList.append([round(float(lons[i]),5), round(float(lats[i]),5)])
 
+    np.save("originallocs.npy", locList)
 
     # # 获取用户之间的关联
     # print("用户关联情况：")
