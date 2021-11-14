@@ -140,7 +140,7 @@ for t in range(0, len(timelist)-1, 2):
         print(key, loc_cnt_map[key])
 
     for i in range(len(locs)):
-        locList.append([round(float(lons[i]),5), round(float(lats[i]),5)])
+        locList.append([round(float(lons[i]),8), round(float(lats[i]),8)])
 
     np.save("originallocs.npy", locList)
 
