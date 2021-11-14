@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 import folium
 from folium.plugins import MarkerCluster
 
+cluster_loc = np.load("cluster_loc.npy")
 
 def plot_map_jap(coor):
     '''创建底层Map对象'''
@@ -31,11 +32,11 @@ def plot_map_jap(coor):
 plt.rcParams['font.sans-serif'] = ['STZhongsong']
 plt.rcParams['axes.unicode_minus'] = False
 plt.rcParams['figure.dpi'] = 300
-plt.figure(figsize=(12, 15))
+plt.figure(figsize=(12, 4))
 
 
 # loc_data = pd.read_csv("../data/shanghai_locs.csv")
-loc_data = np.load("../data/japan_data.npy")
+loc_data = np.load("japan_data.npy")
 # [userid, lat, lon, locid, time]
 all_locs = []
 all_time = []
@@ -91,9 +92,18 @@ def graph_plot(users, user_corr, title):
     # plt.show()
 
 
+origin_time_locs = []
 for t in range(0, len(timelist)-1, 2):
     print("=========时刻："+timelist[t]+"=============")
     loc_cnt_map = {}
+    loc_cluster_map = {}
+
+    c = [i for i in range(65)]
+
+    for i in c:
+        if i not in loc_cluster_map:
+            loc_cluster_map[i] = 0
+
 
     user_month_corr = []
     user_corr_matrix = []
@@ -115,8 +125,8 @@ for t in range(0, len(timelist)-1, 2):
         users.append(item[0])
         locs.append(item[1])
         times.append(item[2])
-        lats.append(item[3])
-        lons.append(item[4])
+        lats.append(round(float(item[3]),8))
+        lons.append(round(float(item[4]),8))
 
     # np.save("locdata0801.npy", monthtmp)
 
@@ -125,6 +135,20 @@ for t in range(0, len(timelist)-1, 2):
             loc_cnt_map[loc] = 1
         else:
             loc_cnt_map[loc] += 1
+
+
+    # 计算位置簇的人数
+    for item in cluster_loc:
+        target_lon = item[0]
+        target_lat = item[1]
+        target_y = int(item[2])
+        for kk in range(len(lons)):
+            if lons[kk] == target_lon and lats[kk] == target_lat:
+                if target_y in loc_cluster_map:
+                    loc_cluster_map[target_y] += 1
+
+
+
 
     setlocs = set(locs)
     times = set(times)
@@ -136,8 +160,23 @@ for t in range(0, len(timelist)-1, 2):
     print("地点数量：", len(locs))
     print("数据集大小：", len(monthtmp))
     print("位置统计：")
-    for key in loc_cnt_map:
-        print(key, loc_cnt_map[key])
+    # for key in loc_cnt_map:
+    #     print(key, loc_cnt_map[key])
+
+    bars = []
+    for key in loc_cluster_map:
+        print(key, loc_cluster_map[key])
+        bars.append(loc_cluster_map[key])
+    origin_time_locs.append(bars)
+
+    plt.subplot(2,6,int(t/2)+1)
+    plt.bar(height=bars, x=[i for i in range(1, 66)], width=1, color='SteelBlue', edgecolor='black')
+    plt.title(timelist[t] + "-" +timelist[t+1] + "时刻区间")
+    # plt.xlabel("位置簇")
+    # plt.ylabel("人数（频次）")
+    plt.tight_layout()
+    # plt.show()
+
 
     for i in range(len(locs)):
         locList.append([round(float(lons[i]),8), round(float(lats[i]),8)])
@@ -163,7 +202,9 @@ for t in range(0, len(timelist)-1, 2):
     # graph_plot(users, user_month_corr,"时刻区间" + str(t) + "-" + str(t+1) + "用户关联")
 
 # plt.show()
-plot_map_jap(locList)
+# plot_map_jap(locList)
+plt.show()
+np.save("origin_time_locs.npy",origin_time_locs)
 
 
 def plot_degree():
