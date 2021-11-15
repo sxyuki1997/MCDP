@@ -100,8 +100,8 @@ plt.grid()
 # 进行聚类计算
 cluster_num=65
 y_pred = KMeans(n_clusters=cluster_num, random_state=9).fit_predict(X)
-print("==========聚类簇=========")
-print(y_pred)
+# print("==========聚类簇=========")
+# print(y_pred)
 
 cluster_loc = []
 
@@ -119,10 +119,29 @@ plt.tight_layout()
 
 # plt.show()
 
-def plot_map_cluster():
+cluster_center_lat = []
+cluster_center_lon = []
+for i in range(65):
+    tmplan = []
+    tmplon = []
+    for y in range(len(y_pred)):
+        if y_pred[y] == i:
+            tmplan.append(lat[y])
+            tmplon.append(lon[y])
+    tlat = np.mean(tmplan)
+    tlon = np.mean(tmplon)
+    cluster_center_lat.append(tlat)
+    cluster_center_lon.append(tlon)
+
+
+
+
+
+
+def plot_map_cluster(lat, lon):
     # 在地图上标出
     '''创建底层Map对象'''
-    m = folium.Map(location=[0.5, 100.5],
+    m = folium.Map(location=[35, 122],
                    zoom_start=8,
                    control_scale=True)
 
@@ -139,16 +158,28 @@ def plot_map_cluster():
                  'red', 'black', 'gray', 'darkred', 'lightred', 'green', 'orange', 'lightgray'
                  ]
 
+    for i in range(0, len(lat), 3 ):
+        for j in range(0, len(lat), 3):
+            folium.PolyLine(
+                # smooth_factor=0.3,
+                weight = 1,
+                locations=[[lat[i], lon[i]], [lat[j], lon[j]]],
+                color="indianred",
+            ).add_to(m)
 
     for i in range(len(lat)):
-        folium.Marker(location=[lat[i], lon[i]],
-                      # icon=folium.Icon(color=colorlist[y_pred[i]], prefix='glyphicon')
-                      ).add_to(m)
+    #     folium.Marker(location=[lat[i], lon[i]],
+    #                   icon=folium.Icon(color=colorlist[y_pred[i]], prefix='glyphicon')
+    #                   ).add_to(m)
+
+        # 画圆
+        folium.Marker(
+            location=[lat[i], lon[i]],  # 位置
+            icon=folium.Icon(color='red', prefix='glyphicon')
+        ).add_to(m)
+
     '''显示m'''
-    m.save('cluster_loc_origin.html')
+    m.save('cluster_loc_origin_center.html')
 
 
-
-
-
-
+plot_map_cluster(cluster_center_lat, cluster_center_lon)
