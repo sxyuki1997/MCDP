@@ -7,7 +7,7 @@ plt.rcParams['axes.unicode_minus'] = False
 plt.rcParams['figure.dpi'] = 300
 plt.figure(figsize=(10, 8))
 
-eps = 5
+eps = 3.5
 
 def calBPL(Pt, a, e, T):
     BPL = [a]
@@ -71,10 +71,10 @@ def generateLoc(n, T):
         m = list()
         for i in range(n):
             b = np.random.dirichlet(np.ones(n), size=1)
-            b = np.around(b, 2).tolist()[0]
-            # while 0.00 in b:
-            #     b = np.random.dirichlet(np.ones(n), size=1)
-            #     b = np.around(b, 2).tolist()[0]
+            b = np.around(b, 3).tolist()[0]
+            while 0.00 in b:
+                b = np.random.dirichlet(np.ones(n), size=1)
+                b = np.around(b, 3).tolist()[0]
 
             m.append(b)
 
