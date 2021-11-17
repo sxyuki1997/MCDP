@@ -7,7 +7,7 @@ plt.rcParams['axes.unicode_minus'] = False
 plt.rcParams['figure.dpi'] = 300
 plt.figure(figsize=(10, 8))
 
-eps = 3.5
+eps = 6.66
 
 def calBPL(Pt, a, e, T):
     BPL = [a]
@@ -87,6 +87,7 @@ def generateLoc(n, T):
 # P = [[1/65 for i in range(65)] for k in range(65)]
 P = generateLoc(65,1)[0]
 
+
 T = 12
 startT = time.time()
 bpl = calBPL(P, eps , eps, T)
@@ -94,3 +95,5 @@ endT = time.time()
 interval = endT - startT
 print("=====运行时间=======：", interval * 1000)
 print("BPL:", bpl)
+for item in P:
+    print(item)
