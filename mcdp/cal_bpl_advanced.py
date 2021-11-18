@@ -65,12 +65,12 @@ def calBPL(Pt, a, e, T):
 输入n:
 输出：生成n*n的位置关联矩阵
 '''
-def generateLoc(n, T):
+def generateLoc(n, T, s):
     res = list()
     for t in range(T):
         m = list()
         for i in range(n):
-            b = np.random.normal(loc=5, scale=1.5, size=65)
+            b = np.random.normal(loc=5, scale=s, size=65)
             b = np.round(b, 3).tolist()
             for k in range(len(b)):
                 b[k] = np.round(b[k]/np.sum(b), 3)
@@ -85,46 +85,35 @@ def generateLoc(n, T):
 
     return res
 
-# 0.002 * 20 + 0.001 * 20 + 0.025*10 + 0.0047 * 15
-#
-# pb = []
-# pb.extend([0.002 for i in range(20)])
-# pb.extend(0.001 for i in range(20))
-# pb.extend([0.025 for i in range(10)])
-# pb.extend([0.0047 for i in range(15)])
-#
-#
-# pb = [pb for i in range(65)]
-
-
 # 65个位置之间的关联
 # P = [[1/65 for i in range(65)] for k in range(65)]
-PB = generateLoc(65,1)[0]
-PF = generateLoc(65,1)[0]
-print(PB)
-#
-T = 12
-startT = time.time()
-bpl = calBPL(PB, eps , eps, T)
-fpl = calBPL(PF, eps, eps, T)
-fpl.reverse()
-tpl = []
-for i in range(len(bpl)):
-    tpl.append(bpl[i] + fpl[i] - eps)
-print("bpl", bpl)
-print("fpl", fpl)
-print("TPL:", tpl)
-print("maxpl:", max(tpl))
-endT = time.time()
-interval = endT - startT
-print("=====运行时间=======：", interval * 1000)
-
-plt.plot(bpl, marker='^', label = '$MCBPL_t$')
-plt.plot(fpl, marker='s', label = '$MCFPL_t$')
-plt.plot(tpl, marker='o', label = '$MCDPL_t$')
-plt.plot([eps for i in range(12)], marker='*', label = '$\epsilon_t$')
-plt.title("不同时刻区间下的隐私泄露情况")
-plt.xlabel("时刻区间")
-plt.ylabel("隐私泄露")
-plt.legend()
+s = [0.5, 1,5,10]
+for k in range(len(s)):
+    PB = generateLoc(65,1,s[k])[0]
+    PF = generateLoc(65,1,s[k])[0]
+    # print(PB)
+    T = 12
+    startT = time.time()
+    bpl = calBPL(PB, eps , eps, T)
+    fpl = calBPL(PF, eps, eps, T)
+    fpl.reverse()
+    tpl = []
+    for i in range(len(bpl)):
+        tpl.append(bpl[i] + fpl[i] - eps)
+    print("bpl", bpl)
+    print("fpl", fpl)
+    print("TPL:", tpl)
+    print("maxpl:", max(tpl))
+    endT = time.time()
+    interval = endT - startT
+    print("=====运行时间(s)=======：", interval)
+    plt.subplot(2,2,k+1)
+    plt.plot(bpl, marker='^', label = '$MCBPL_t$')
+    plt.plot(fpl, marker='s', label = '$MCFPL_t$')
+    plt.plot(tpl, marker='o', label = '$MCDPL_t$')
+    plt.plot([eps for i in range(12)], marker='*', label = '$\epsilon_t$')
+    plt.title("$s=$" + str(s[k]))
+    plt.xlabel("时刻区间")
+    plt.ylabel("隐私泄露")
+    plt.legend()
 plt.show()
