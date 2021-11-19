@@ -144,49 +144,37 @@ def main():
     print("MSE：", MSE)
 
 
-    plt.rcParams['figure.figsize'] = (10, 8)
-    plt.subplot(2,2,1)
+    plt.rcParams['figure.figsize'] = (15, 4)
 
-    degree = [5, 5, 14, 13, 13, 14, 17, 12, 4, 3, 2, 1]
-    lalist = [0.26, 0.19, 0.3, 0.41, 0.43, 0.37, 0.35, 0.44, 0.33, 0.17, 0.28, 0.08]
-    plt.scatter(degree, lalist, marker='o', label="$l_A$")
-    plt.title("(1) 用户关联程度与关联泄露系数")
-    plt.xlabel("用户关联程度（max_degree）")
-    plt.ylabel("关联泄露系数（$l_A$）")
-    plt.legend()
-    plt.tight_layout()
-
-
-
-    plt.subplot(2,2,2)
+    plt.subplot(1,3,1)
     plt.plot(WD, label="wasserstein distance", marker="s")
     mean_wd = np.mean(WD)
     plt.plot([mean_wd for k in range(12)], marker='_', linestyle= 'dotted',label="均值")
     plt.xlabel("时刻区间")
     plt.ylabel("W距离（wasserstein distance）")
-    plt.title("(2) 加噪前后直方图分布的距离")
+    plt.title("(1) 加噪前后直方图分布的距离")
     plt.legend()
 
     plt.tight_layout()
 
-    plt.subplot(2,2,3)
+    plt.subplot(1,3,2)
     plt.plot(ACC, label="精度", marker="^")
     mean_acc = np.mean(ACC)
     plt.plot([mean_acc for k in range(12)], marker='_', linestyle= 'dotted',label="均值")
     plt.xlabel("时刻区间")
     plt.ylabel("精度")
-    plt.title("(3) 直方图的平均精度")
+    plt.title("(2) 直方图的平均精度")
     plt.legend()
 
     plt.tight_layout()
 
-    plt.subplot(2,2,4)
+    plt.subplot(1,3,3)
     plt.plot(MSE, label="MSE", marker='*')
     mean_mse = np.mean(MSE)
     plt.plot([mean_mse for k in range(12)], marker='_', linestyle= 'dotted', label="均值")
     plt.xlabel("时刻区间")
     plt.ylabel("MSE")
-    plt.title("(4) 直方图发布的MSE")
+    plt.title("(3) 直方图发布的MSE")
     plt.tight_layout()
     plt.legend()
     plt.show()

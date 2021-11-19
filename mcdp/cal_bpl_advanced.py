@@ -5,9 +5,9 @@ import time
 plt.rcParams['font.sans-serif'] = ['STZhongsong']
 plt.rcParams['axes.unicode_minus'] = False
 plt.rcParams['figure.dpi'] = 300
-plt.figure(figsize=(6, 5))
+plt.figure(figsize=(10, 8))
 
-eps = 3.25
+eps = 6.66
 
 def calBPL(Pt, a, e, T):
     BPL = [a]
@@ -84,36 +84,28 @@ def generateLoc(n, T, s):
         print(m)
 
     return res
-
+BPL = []
+FPL = []
+TPL = []
 # 65个位置之间的关联
 # P = [[1/65 for i in range(65)] for k in range(65)]
-s = [0.5, 1,5,10]
-for k in range(len(s)):
-    PB = generateLoc(65,1,s[k])[0]
-    PF = generateLoc(65,1,s[k])[0]
-    # print(PB)
-    T = 12
-    startT = time.time()
-    bpl = calBPL(PB, eps , eps, T)
-    fpl = calBPL(PF, eps, eps, T)
-    fpl.reverse()
-    tpl = []
-    for i in range(len(bpl)):
-        tpl.append(bpl[i] + fpl[i] - eps)
-    print("bpl", bpl)
-    print("fpl", fpl)
-    print("TPL:", tpl)
-    print("maxpl:", max(tpl))
-    endT = time.time()
-    interval = endT - startT
-    print("=====运行时间(s)=======：", interval)
-    plt.subplot(2,2,k+1)
-    plt.plot(bpl, marker='^', label = '$MCBPL_t$')
-    plt.plot(fpl, marker='s', label = '$MCFPL_t$')
-    plt.plot(tpl, marker='o', label = '$MCDPL_t$')
-    plt.plot([eps for i in range(12)], marker='*', label = '$\epsilon_t$')
-    plt.title("$s=$" + str(s[k]))
-    plt.xlabel("时刻区间")
-    plt.ylabel("隐私泄露")
-    plt.legend()
-plt.show()
+s = 1.45
+PB = generateLoc(65,1,s)[0]
+PF = generateLoc(65,1,s)[0]
+# print(PB)
+T = 12
+startT = time.time()
+bpl = calBPL(PB, eps , eps, T)
+fpl = calBPL(PF, eps, eps, T)
+fpl.reverse()
+tpl = []
+for i in range(len(bpl)):
+    tpl.append(bpl[i] + fpl[i] - eps)
+print("bpl", bpl)
+print("fpl", fpl)
+print("TPL:", tpl)
+print("maxpl:", max(tpl))
+
+endT = time.time()
+interval = endT - startT
+print("=====运行时间(s)=======：", interval)
