@@ -7,7 +7,7 @@ plt.rcParams['axes.unicode_minus'] = False
 plt.rcParams['figure.dpi'] = 300
 plt.figure(figsize=(10, 8))
 
-eps = 6.66
+eps = 2.5
 
 def calBPL(Pt, a, e, T):
     BPL = [a]
@@ -53,7 +53,7 @@ def calBPL(Pt, a, e, T):
                     if L<np.log((sum_p*((np.e**(a))-1)+1) / (sum_q*((np.e**(a))-1)+1)):
                         L = np.log((sum_p*((np.e**(a))-1)+1) / (sum_q*((np.e**(a))-1)+1))
 
-        BPL.append(round(L + e,2))
+        BPL.append(round(L + e,3))
         print("========运行中" + str(t))
         # progress(100 * t/(T-1))
 
@@ -89,7 +89,7 @@ FPL = []
 TPL = []
 # 65个位置之间的关联
 # P = [[1/65 for i in range(65)] for k in range(65)]
-s = 1.45
+s = 5
 PB = generateLoc(65,1,s)[0]
 PF = generateLoc(65,1,s)[0]
 # print(PB)
@@ -103,7 +103,7 @@ for i in range(len(bpl)):
     tpl.append(bpl[i] + fpl[i] - eps)
 print("bpl", bpl)
 print("fpl", fpl)
-print("TPL:", tpl)
+print("tpl:", tpl)
 print("maxpl:", max(tpl))
 
 endT = time.time()

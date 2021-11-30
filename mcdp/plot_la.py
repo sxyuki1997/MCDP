@@ -16,7 +16,7 @@ degree = [5, 5, 14, 13, 13, 14, 17, 12, 4, 3, 2, 1]
 
 LA = []
 lalist = []
-eps = 3.25
+eps = 2.5
 Lamda = []
 for i in range(len(user_num)):
     m = 20
@@ -29,10 +29,10 @@ for i in range(len(user_num)):
     print(lamda, e)
     Lamda.append(lamda)
 
-print(LA)
+print("LA:",LA)
 print(degree)
-print(Lamda)
-print(lalist)
+print("LAMDA:", Lamda)
+print("lalist:", lalist)
 
 plt.subplot(1,2,1)
 
@@ -53,11 +53,12 @@ plt.xlabel("用户关联程度（max_degree）")
 plt.ylabel("用户关联程度与关联泄露系数（$l_A$）")
 plt.legend()
 # plt.show()
+plt.tight_layout()
 
 t = [i for i in range(12)]
 plt.plot(t, LA, marker='p', label="$\epsilon_t$")
 plt.title("(2) 用户关联和隐私保护参数")
-plt.xlabel("时刻区间")
+plt.xlabel("时间段 ($t$)")
 plt.ylabel("参数值")
 plt.legend()
 plt.tight_layout()
